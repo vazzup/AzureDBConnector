@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import pyodbc	#Import module used to connect
+
+db_host = 'tcp:enginx-test.database.windows.net,1433'
+db_name = 'enginx'
+db_user = 's.niket28@enginx-test'
+db_password = 'Enginx2017'
+driver_name =  'ODBC Driver 13 for SQL Server'
+connection_string = 'Driver={' + driver_name + '};Server=' + db_host + ';Database=' + \
+						db_name + ';UID=' + db_user + ';PWD={' + db_password + '};' + \
+						'Encrypt=yes;Connection Timeout=30;'
+connection  = pyodbc.connect(connection_string)
+cursor = connection.cursor()
+for i in range(10):
+	cursor.execute('INSERT INTO test(Name) VALUES("Vatsal");')
+	connection.commit()
+cursor.execute('SELECT * FROM test;')
+rows = cursor.fetchall()
+for row in rows:
+	print(row.Name)
+connection.close();
+
